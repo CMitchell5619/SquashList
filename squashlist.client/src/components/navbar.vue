@@ -1,12 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border border-dark">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img
-          alt="logo"
-          src="../assets/img/cw-logo.png"
-          height="45"
-        />
+        <h1>squashSquad</h1>
       </div>
     </router-link>
     <button
@@ -22,7 +18,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
+        <li>
+          <button type="button" class="close" data-toggle="modal" :data-target="'#createBugModal'" aria-label="Close">
+            <span class="text-light" aria-hidden="true">&plus;</span>
+          </button>
+        </li>
+        <!-- <li class="nav-item">
           <router-link :to="{ name: 'Home' }" class="nav-link">
             Home
           </router-link>
@@ -31,7 +32,7 @@
           <router-link :to="{ name: 'About' }" class="nav-link">
             About
           </router-link>
-        </li>
+        </li> -->
       </ul>
       <span class="navbar-text">
         <button
@@ -75,6 +76,7 @@
         </div>
       </span>
     </div>
+    <CreateBug />
   </nav>
 </template>
 

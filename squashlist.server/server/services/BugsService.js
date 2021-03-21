@@ -2,10 +2,15 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class BugsService {
-  async find(query = {}) {
-    const bugs = await dbContext.Bugs.find(query).populate('creator', 'name picture email')
+  async getAll() {
+    const bugs = await dbContext.Bugs.find().populate('creator', 'name picture email')
     return bugs
   }
+
+  // async getAll(query = {}) {
+  //   const bugs = await dbContext.Bugs.find(query).populate('creator', 'name picture email')
+  //   return bugs
+  // }
 
   async getById(id) {
     const bug = await dbContext.Bugs.findById(id).populate('creator', 'name picture email')

@@ -1,22 +1,21 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
+const ObjectId = mongoose.SchemaTypes.ObjectId
 
-const Bug = new Schema(
+const Note = new Schema(
   {
-    closed: { type: Boolean, required: true, default: false },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    closedDate: { type: Date },
+    body: { type: String, required: true },
+    bug: { type: ObjectId, ref: 'Bug', required: true },
     creatorId: { type: String, required: true }
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
 
-Bug.virtual('creator', {
+Note.virtual('creator', {
   localField: 'creatorId',
   ref: 'Account',
   foreignField: '_id',
   justOne: true
 })
 
-export default Bug
+export default Note
