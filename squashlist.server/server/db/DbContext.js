@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
-import BugSchema from '../models/Bug'
-import NoteSchema from '../models/Note'
+import BugsSchema from '../models/Bug'
+import NotesSchema from '../models/Note'
 import AccountSchema from '../models/Account'
 
 class DbContext {
-  Bugs = mongoose.model('Bug', BugSchema);
+  Bugs = mongoose.model('Bugs', BugsSchema);
   Account = mongoose.model('Account', AccountSchema);
-  Notes = mongoose.model('Note', NoteSchema)
+  Notes = mongoose.model('Notes', NotesSchema)
 }
 
 export const dbContext = new DbContext()

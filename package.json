@@ -1,15 +1,13 @@
-
-  {
-    "name": "squashlist",
-    "version": "1.0.0",
-    "scripts": {
-      "build": "npm run setup:client && npm run setup:server",
-      "setup:client": "cd squashlist.client && npm i",
-      "setup:server": "cd squashlist.server && npm i",
-      "start": "node squashlist.server/index.js"
-    },
-    "engines": {
-      "node": "^14.15.4"
-    }
+{
+  "name": "squashlist",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm run setup:client && npm run setup:server",
+    "setup:client": "cd squashlist.client && npm i",
+    "setup:server": "cd squashlist.server && npm i",
+    "start": "node squashlist.server/index.js"
+  },
+  "engines": {
+    "node": "^14.15.4"
   }
-  
+}
