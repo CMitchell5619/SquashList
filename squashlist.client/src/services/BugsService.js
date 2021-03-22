@@ -16,7 +16,7 @@ export default class BugsService {
   async createBug(newBug) {
     try {
       const res = await api.post('api/bugs', newBug)
-      AppState.bugs[newBug].push(res.data)
+      AppState.bugs[newBug.id].push(res.data)
       return res.data._id
     } catch (error) {
       logger.error(error)
@@ -43,6 +43,27 @@ export default class BugsService {
 
   async deleteBug(bug) {
     await api.delete('api/bugs/' + bug.id)
+  }
+
+  getBugDate(id) {
+    const bug = AppState.bugs.find(b => b.id === id)
+    if (bug) {
+      const bugDate = bug.createdAt
+      const updatedDate = new Date(bugDate)
+      const year = updatedDate.getFullYear()
+      const month = (this.fixLowNumber(updatedDate.getMonth() + 1))
+      const day = this.fixLowNumber(updatedDate.getDate())
+      const hour = this.fixLowNumber(updatedDate.getHours())
+      const minute = this.fixLowNumber(updatedDate.getMinutes())
+      const newDate = `${month}-${day}-${year} ${hour}:${minute}`
+      return newDate
+    }
+
+    return 0
+  }
+
+  fixLowNumber(n) {
+    return (n < 10 ? '0' : '') + n
   }
 }
 

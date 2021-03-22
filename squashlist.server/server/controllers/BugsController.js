@@ -7,18 +7,18 @@ export class BugsController extends BaseController {
     super('api/bugs')
     this.router
     // NOTE: Beyond this point all routes require Authorization tokens (the user must be logged in)
-      .post('', this.create)
+      .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAll)
       .get('/:id', this.getById)
       .delete('/:id', this.delete)
-      .use(Auth0Provider.getAuthorizedUserInfo)
+      .post('', this.create)
   }
 
   async create(req, res, next) {
     try {
       // NOTE NEVER TRUST THE CLIENT TO ADD THE CREATOR ID
       req.body.creatorId = req.userInfo.id
-      res.send(201, await bugsService.create(req.body))
+      res.send(await bugsService.create(req.body))
     } catch (error) {
       next(error)
     }

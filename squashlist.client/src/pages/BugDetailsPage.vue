@@ -14,7 +14,7 @@
     </div>
     <div class="row justify-content-between">
       <div class="col-10">
-        Reported By: {{ state.user.name }}
+        Reported By: {{ state.activeBug.creator.name }}
       </div>
       <div class="col-2">
         Status {{ state.activeBug.closed }}
@@ -48,6 +48,7 @@
       </div>
     </div>
   </div>
+  <AddComment />
 </template>
 
 <script>
