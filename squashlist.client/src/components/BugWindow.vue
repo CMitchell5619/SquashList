@@ -23,9 +23,9 @@
           <th scope="row">
             {{ bug.title }}
           </th>
-          <td>{{ bug.creator }}</td>
+          <td>{{ bug.creator.name }}</td>
           <td>{{ bug.closed }}</td>
-          <td>{{ bug.date }}</td>
+          <td>{{ bug.updatedAt }}</td>
         </tr>
         <tr>
           <th scope="row">
@@ -64,7 +64,8 @@ export default {
       bugsService.getAllBugs()
     })
     return {
-      state
+      state,
+      bugsService.
     }
   },
   components: {}
