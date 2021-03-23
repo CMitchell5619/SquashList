@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="row justify-content-between">
-      <div class="col-10">
-        <!-- Reported By: {{ state.activeBug.creator.name }} -->
+      <div class="col-10" v-if="state.activeBug.creator">
+        Reported By: {{ state.activeBug.creator.name }}
       </div>
       <div class="col-2" v-if="state.activeBug.closed == false">
         Status: Open
@@ -48,25 +48,11 @@
         <h3>
           Notes
         </h3>
-        <form class="form-inline" @submit.prevent="createNote(event)">
-          <input
-            type="text"
-            name="body"
-            id="body"
-            class="form-control"
-            placeholder="Note"
-            aria-describedby="helpId"
-            v-model="state.newNote.body"
-          />
-          <button class="btn btn-secondary" type="submit">
-            Create List
-          </button>
-        </form>
         <div class="col-4">
-          <button type="button" class="btn btn-dark" data-toggle="modal" :data-target="'createNoteModal'">
+          <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createNoteModal">
             Create Note
           </button>
-          <CreateNote :active-bug="bug" />
+          <CreateNote :bug="state.activeBug" />
         </div>
       </div>
       <div class="row">
@@ -84,7 +70,8 @@
             </thead>
             <!-- BODY START -->
             <tbody>
-              <NotesWindow v-for="note in state.notes" :key="note.id" :note="note" />
+              <p>noteswindowbelow</p>
+              <NotesWindow v-for="note in state.notes" :key="note.id" :note="note" :bug="state.activeBug" />
             </tbody>
           </table>
         </div>

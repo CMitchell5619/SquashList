@@ -21,7 +21,7 @@ class NotesService {
   }
 
   async create(newNote) {
-    return await dbContext.Note.create(newNote)
+    return await (await dbContext.Note.create(newNote)).populate('creator', 'name picture email')
   }
 
   async edit(noteId, editedNote, userId) {

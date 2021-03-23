@@ -12,11 +12,11 @@ class NotesService {
     }
   }
 
-  async createNote(newNote) {
+  async createNote(newNote, bugId) {
     try {
+      newNote.bug = bugId
+
       const res = await api.post('api/notes', newNote)
-      console.log(res.data)
-      AppState.notes[newNote.bug].push(res.data)
       return res.data._id
     } catch (error) {
       logger.error(error)

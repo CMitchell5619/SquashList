@@ -1,11 +1,16 @@
 <template>
   <div class="note-window">
+    BEEEBEBEBEBENAN
+    <div>{{ note.body }}</div>{{ note.body }}
     <tr class="note-window">
-      <th scope="row">
+      <th scope="row" v-if="note.creator">
         {{ note.body }}
       </th>
 
-      <td>{{ note.creator.name }}{{ note.creator.picture }}</td>
+      <td v-if="note.creator">
+        <img :src="note.creator.picture" alt="">
+        {{ note.creator.name }}
+      </td>
 
       <!-- <td>{{ getNoteDate(note._id) }}</td> -->
       <!-- <NoteDetails :note="note" /> -->
@@ -20,7 +25,7 @@ import { notesService } from '../services/NotesService'
 import { bugsService } from '../services/BugsService'
 
 export default {
-  name: 'NoteWindow',
+  name: 'NotesWindow',
   props: {
     note: { type: Object, required: true },
     bug: { type: Object, required: true }
@@ -30,7 +35,7 @@ export default {
       notes: computed(() => AppState.notes)
     })
     onMounted(() => {
-      bugsService.getNotesById(props.bug.id)
+      bugsService.getNotesById(props.bug._id)
     })
     return {
       state,

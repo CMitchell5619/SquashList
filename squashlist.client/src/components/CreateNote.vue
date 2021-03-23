@@ -1,7 +1,7 @@
 <template>
   <div class="create-comment">
     <!-- Modal is called in BugDetailsPage -->
-    <div class="modal createNoteModal" :id="'createNoteModal'" tabindex="-1" role="dialog">
+    <div class="modal createNoteModal" id="createNoteModal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-title bg-dark text-center text-light">
@@ -23,7 +23,7 @@
               </div>
               <!-- End Inputs -->
 
-              <button type="button" class="btn btn-danger" @click="createNote()">
+              <button type="button" class="btn btn-danger" @click="createNote">
                 Create
               </button>
             </form>
@@ -49,7 +49,7 @@ export default {
   props: {
     bug: { type: Object, required: true }
   },
-  setup() {
+  setup(props) {
     const state = reactive({
       newNote: {}
     })
@@ -57,7 +57,8 @@ export default {
       state,
       async createNote() {
         try {
-          await notesService.createNote(state.newNote)
+          await notesService.createNote(state.newNote, props.bug.id)
+          console.log(props.bug.id)
         } catch (error) {
           logger.error(error)
         }

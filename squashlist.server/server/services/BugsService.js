@@ -32,11 +32,11 @@ class BugsService {
     if (bug.creatorId !== userId) {
       throw new BadRequest('Not your bug, bruh')
     }
-    return await dbContext.Bug.findByIdAndUpdate(bugId, editedBug, { new: true })
+    return await dbContext.Bug.findByIdAndUpdate({ _id: bugId, closed: false }, editedBug, { new: true })
   }
 
   async delete(id) {
-    const deleted = await dbContext.Bug.findByIdAndUpdate(id, { closed: true }, { new: true })
+    const deleted = await dbContext.Bug.findByIdAndUpdate({ _id: id }, { closed: true }, { new: true })
     if (!deleted) {
       throw new BadRequest('InvalidId')
     }

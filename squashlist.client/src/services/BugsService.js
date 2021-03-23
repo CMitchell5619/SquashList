@@ -17,6 +17,7 @@ export default class BugsService {
     try {
       const res = await api.post('api/bugs', newBug)
       AppState.bugs.push(res.data)
+
       return res.data._id
     } catch (error) {
       logger.error(error)
@@ -36,7 +37,7 @@ export default class BugsService {
   async getNotesById(id) {
     try {
       const res = await api.get('api/bugs/' + id + '/notes')
-      AppState.notes[id] = res.data
+      AppState.notes = res.data
     } catch (err) {
       logger.error(err)
     }
