@@ -16,7 +16,7 @@ export default class BugsService {
   async createBug(newBug) {
     try {
       const res = await api.post('api/bugs', newBug)
-      AppState.bugs[newBug.id].push(res.data)
+      AppState.bugs.push(res.data)
       return res.data._id
     } catch (error) {
       logger.error(error)
@@ -33,8 +33,29 @@ export default class BugsService {
     }
   }
 
+  async getNotesById(id) {
+    try {
+      const res = await api.get('api/bugs/' + id + '/notes')
+      AppState.notes[id] = res.data
+    } catch (err) {
+      logger.error(err)
+    }
+  }
+
+  async edit(editedBug) {
+    try {
+      await api.put('api/bugs/' + editedBug._id, editedBug)
+    } catch (err) {
+      logger.error(err)
+    }
+  }
+
   async deleteActiveBug(id) {
     try {
+      const res = window.confirm('Do you want to close the bug? This cannot be changed.')
+      if (!res) {
+        return
+      }
       await api.delete('api/bugs/' + id)
     } catch (error) {
       logger.error(error)

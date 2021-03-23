@@ -1,12 +1,12 @@
 <template>
-  <div class="create-bug">
-    <!-- Modal is called in NavBar -->
-    <div class="modal createBugModal" :id="'createBugModal'" tabindex="-1" role="dialog">
+  <div class="create-comment">
+    <!-- Modal is called in BugDetailsPage -->
+    <div class="modal createNoteModal" :id="'createNoteModal'" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-title bg-dark text-center text-light">
             <h3>
-              Report Bug
+              Notes
             </h3>
           </div>
           <div class="modal-body bg-dark">
@@ -14,25 +14,16 @@
               <!-- Inputs -->
               <div class="p-2">
                 <input type="text"
-                       name="bugTitle"
+                       name="noteBody"
                        class="form-control p-3 bg-secondary text-light"
-                       placeholder="Title"
+                       placeholder="Note"
                        aria-describedby="helpId"
-                       v-model="state.newBug.title"
-                />
-              </div>
-              <div class="p-3">
-                <input type="text"
-                       name="bugDescription"
-                       class="form-control p-3 bg-secondary"
-                       placeholder="Description"
-                       aria-describedby="helpId"
-                       v-model="state.newBug.description"
+                       v-model="state.newNote.body"
                 />
               </div>
               <!-- End Inputs -->
 
-              <button type="button" class="btn btn-danger" @click="createBug()">
+              <button type="button" class="btn btn-danger" @click="createNote()">
                 Create
               </button>
             </form>
@@ -51,22 +42,22 @@
 <script>
 import { reactive } from 'vue'
 import { logger } from '../utils/Logger'
-import { bugsService } from '../services/BugsService'
-import { useRouter } from 'vue-router'
+import { notesService } from '../services/NotesService'
 
 export default {
-  name: 'CreateBug',
+  name: 'CreateNote',
+  props: {
+    bug: { type: Object, required: true }
+  },
   setup() {
-    const router = useRouter()
     const state = reactive({
-      newBug: {}
+      newNote: {}
     })
     return {
       state,
-      async createBug() {
+      async createNote() {
         try {
-          const bugId = await bugsService.createBug(state.newBug)
-          router.push({ name: 'BugDetails', params: { id: bugId } })
+          await notesService.createNote(state.newNote)
         } catch (error) {
           logger.error(error)
         }

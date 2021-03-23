@@ -19,29 +19,27 @@
       </thead>
       <!-- BODY START -->
       <tbody>
-        <tr v-for="bug in state.bugs" :key="bug.id" :bug="bug">
-          <th scope="row">
-            {{ bug.title }}
-          </th>
+        <tr v-for="bug in state.bugs"
+            :key="bug.id"
+            :bug="bug"
+            class="pointer"
+            data-toggle="modal"
+            :data-target="'#bugDetails' + bug.id"
+        >
+          <router-link :to="{ name: 'BugDetails', params: {id: bug.id}}">
+            <th scope="row">
+              {{ bug.title }}
+            </th>
+          </router-link>
           <td>{{ bug.creator.name }}</td>
-          <td>{{ bug.closed }}</td>
-          <td>{{ bug.updatedAt }}</td>
-        </tr>
-        <tr>
-          <th scope="row">
-            2
-          </th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">
-            3
-          </th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
+          <td v-if="bug.closed == false">
+            Open
+          </td>
+          <td v-else class="text-muted">
+            Closed
+          </td>
+          <td>{{ getBugDate(bug._id) }}</td>
+          <!-- <BugDetails :bug="bug" /> -->
         </tr>
       </tbody>
       <!-- BODY END -->
@@ -65,13 +63,21 @@ export default {
     })
     return {
       state,
-      bugsService.
+      getBugDate(id) {
+        return bugsService.getBugDate(id)
+      }
     }
   },
-  components: {}
+  components: {
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+}
 
 </style>

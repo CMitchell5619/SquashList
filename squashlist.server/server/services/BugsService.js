@@ -24,7 +24,14 @@ class BugsService {
     return await dbContext.Bug.create(newBug)
   }
 
-  async edit(bugId, editedBug) {
+  async edit(bugId, editedBug, userId) {
+    const bug = await this.getById(bugId)
+    if (bug.closed) {
+      throw new BadRequest('Bug is already closed')
+    }
+    if (bug.creatorId !== userId) {
+      throw new BadRequest('Not your bug, bruh')
+    }
     return await dbContext.Bug.findByIdAndUpdate(bugId, editedBug, { new: true })
   }
 
