@@ -53,7 +53,7 @@ export default {
       async deleteNote() {
         try {
           if (window.confirm('Are you sure? This cannot be undone!')) {
-            await notesService.deleteNote(props.note)
+            await notesService.deleteNote(props.note, route.params.id)
           }
         } catch (error) {
           logger.error(error)

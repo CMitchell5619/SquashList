@@ -33,9 +33,10 @@ class NotesService {
     }
   }
 
-  async deleteNote(note) {
+  async deleteNote(note, bugId) {
     try {
       await api.delete('api/notes/' + note._id)
+      this.getByBugId(bugId)
     } catch (error) {
 
     }
