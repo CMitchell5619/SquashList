@@ -19,7 +19,8 @@
           </th>
         </tr>
       </thead>
-      <!-- BODY START -->
+
+      <!-- FIRST FILTER OPTION FOR TABLE BODY -->
       <tbody v-if="state.filterOpen">
         <tr v-for="bug in state.bugs"
             :key="bug.id"
