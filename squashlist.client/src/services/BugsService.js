@@ -6,7 +6,6 @@ export default class BugsService {
   async getAllBugs() {
     try {
       const res = await api.get('api/bugs')
-      console.log(res)
       AppState.bugs = res.data
     } catch (error) {
       logger.error(error)
