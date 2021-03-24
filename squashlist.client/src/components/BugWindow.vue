@@ -10,7 +10,7 @@
             Reported By
           </th>
           <th scope="col">
-            <button @click="state.filterOpen = !state.filterOpen">
+            <button class="btn btn-secondary" @click="state.filterOpen = !state.filterOpen">
               Status
             </button>
           </th>
@@ -43,7 +43,7 @@
           <td>{{ getBugDate(bug._id) }}</td>
         </tr>
       </tbody>
-
+      <!-- SECOND FILTER OPTION -->
       <tbody v-else>
         <tr v-for="bug in state.openBugs"
             :key="bug.id"
