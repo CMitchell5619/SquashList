@@ -12,29 +12,34 @@
         </h1>
       </div>
     </div>
-    <div class="row justify-content-between">
-      <div class="col-10" v-if="state.activeBug.creator">
+    <div class="row justify-content-between align-items-end">
+      <div class="col-2" v-if="state.activeBug.creator">
         Reported By: {{ state.activeBug.creator.name }}
+      </div>
+      <div class="col-2">
+        <img :src="state.activeBug.creator.picture" alt="">
       </div>
       <div class="col-2" v-if="state.activeBug.closed == false">
         Status: Open
       </div>
-      <div class="col-2" v-else>
+      <div class="col-6" v-else>
         Status: Closed
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 min-vw-50 min-vh-50 border border-light">
-        {{ state.activeBug.description }}
+    <div class="row p-4">
+      <div class="col-12 border border-light p-5">
+        <div class="card bg-dark">
+          {{ state.activeBug.description }}
+        </div>
       </div>
     </div>
-    <div class="row justify-content-end">
-      <div class="col-3" v-show="state.activeBug.closed == false">
+    <div class="row mb-4 justify-content-end">
+      <div class="col-2 text-center" v-show="state.activeBug.closed == false">
         <button class="btn btn-primary">
           Edit
         </button>
       </div>
-      <div class="col-3" v-show="state.activeBug.closed == false">
+      <div class="col-2" v-show="state.activeBug.closed == false">
         <button type="button"
                 class="btn btn-danger"
                 @click="deleteActiveBug"
@@ -43,39 +48,42 @@
         </button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-4">
+    <div class="row p-3 mt-5 border border-light justify-content-between">
+      <div class="col-8">
         <h3>
           Notes
         </h3>
-        <div class="col-4">
-          <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createNoteModal">
-            Create Note
-          </button>
-          <CreateNote :bug="state.activeBug" />
-        </div>
       </div>
-      <div class="row">
-        <div class="note-window">
-          <table class="table table-striped table-hover table-dark">
-            <thead>
-              <tr>
-                <th scope="col">
-                  Note
-                </th>
-                <th scope="col">
-                  Reported By
-                </th>
-              </tr>
-            </thead>
-            <!-- BODY START -->
-            <tbody>
-              <p>noteswindowbelow</p>
-              <NotesWindow v-for="note in state.notes" :key="note.id" :note="note" :bug="state.activeBug" />
-            </tbody>
-          </table>
-        </div>
+      <div class="col-4" v-if="!state.activeBug.closed">
+        <button type="button" class="btn btn-secondary text-light" data-toggle="modal" data-target="#createNoteModal">
+          Create Note
+        </button>
+        <CreateNote :bug="state.activeBug" />
       </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+      <table class="table table-striped table-hover table-dark">
+        <thead>
+          <tr>
+            <th scope="col">
+              Note
+            </th>
+            <th scope="col">
+              Reported By
+            </th>
+            <th scope="col">
+              Required Picture
+            </th>
+            <th scope="col">
+              Delete
+            </th>
+          </tr>
+        </thead>
+        <!-- BODY START -->
+        <tbody>
+          <NotesWindow v-for="note in state.notes" :key="note.id" :note="note" :bug="state.activeBug" />
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -120,6 +128,7 @@ export default {
       },
       async createNote() {
         await notesService.createNote(state.newNote)
+        await bugsService.getNotesById(route.params.id)
       }
 
     }

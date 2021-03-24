@@ -17,7 +17,6 @@ export default class BugsService {
     try {
       const res = await api.post('api/bugs', newBug)
       AppState.bugs.push(res.data)
-
       return res.data._id
     } catch (error) {
       logger.error(error)

@@ -15,8 +15,8 @@ class NotesService {
   async createNote(newNote, bugId) {
     try {
       newNote.bug = bugId
-
       const res = await api.post('api/notes', newNote)
+      this.getAllNotesById(bugId)
       return res.data._id
     } catch (error) {
       logger.error(error)
