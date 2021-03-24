@@ -1,4 +1,5 @@
 <template>
+  {{ state.notes.body }}
   <tr class="note-window">
     <th scope="row" v-if="note.creator">
       {{ note.body }}
@@ -10,18 +11,23 @@
     <td>
       <img :src="note.creator.picture" alt="">
     </td>
-    <td type="button" class="close" @click="deleteNote" v-if="!bug.closed">
+    <td type="button"
+        class="close"
+        @click="deleteNote"
+        v-if="!bug.closed"
+        v-show="note.creator.email == state.user.email"
+    >
       &times;
     </td>
-
     <td v-else>
-      Bug Closed
+      Denied
     </td>
   </tr>
 </template>
 
 <script>
 import { reactive, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
 import { bugsService } from '../services/BugsService'
 import { notesService } from '../services/NotesService'
@@ -34,11 +40,13 @@ export default {
     bug: { type: Object, required: true }
   },
   setup(props) {
+    const route = useRoute()
     const state = reactive({
+      user: computed(() => AppState.user),
       notes: computed(() => AppState.notes)
     })
     onMounted(() => {
-      bugsService.getNotesById(props.bug.id)
+      bugsService.getNotesById(route.params.id)
     })
     return {
       state,

@@ -16,7 +16,7 @@
       <div class="col-2" v-if="state.activeBug.creator">
         Reported By: {{ state.activeBug.creator.name }}
       </div>
-      <div class="col-2">
+      <div class="col-2" v-if="state.activeBug.creator">
         <img :src="state.activeBug.creator.picture" alt="">
       </div>
       <div class="col-2" v-if="state.activeBug.closed == false">
@@ -35,7 +35,7 @@
     </div>
     <div class="row mb-4 justify-content-end">
       <div class="col-2 text-center" v-show="state.activeBug.closed == false">
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" v-if="state.activeBug.creator" v-show="state.activeBug.creator.email == state.user.email">
           Edit
         </button>
       </div>

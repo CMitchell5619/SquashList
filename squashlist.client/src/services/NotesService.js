@@ -1,12 +1,15 @@
 import { api } from './AxiosService'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
+import { bugsService } from './BugsService'
+import { Note } from '../Models/Note'
 
 class NotesService {
   async getByBugId(bugId) {
     try {
       const res = await api.get('api/bugs/' + bugId + '/notes')
-      AppState.notes[bugId] = res.data
+      AppState.notes = res.data.map(n => new Note(n))
+      bugsService.getNotesById(bugId)
     } catch (err) {
       logger.error(err)
     }
@@ -15,9 +18,8 @@ class NotesService {
   async createNote(newNote, bugId) {
     try {
       newNote.bug = bugId
-      const res = await api.post('api/notes', newNote)
-      this.getAllNotesById(bugId)
-      return res.data._id
+      await api.post('api/notes', newNote)
+      this.getByBugId(bugId)
     } catch (error) {
       logger.error(error)
     }
@@ -31,10 +33,9 @@ class NotesService {
     }
   }
 
-  async deleteNotes(note) {
+  async deleteNote(note) {
     try {
       await api.delete('api/notes/' + note._id)
-      this.getAllNotesById(note.bug)
     } catch (error) {
 
     }
