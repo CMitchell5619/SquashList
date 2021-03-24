@@ -10,7 +10,9 @@
             Reported By
           </th>
           <th scope="col">
-            Status
+            <button @click="state.filterOpen = !state.filterOpen">
+              Status
+            </button>
           </th>
           <th scope="col">
             Last Modified
@@ -18,7 +20,7 @@
         </tr>
       </thead>
       <!-- BODY START -->
-      <tbody>
+      <tbody v-if="state.filterOpen">
         <tr v-for="bug in state.bugs"
             :key="bug.id"
             :bug="bug"
@@ -39,7 +41,30 @@
             Closed
           </td>
           <td>{{ getBugDate(bug._id) }}</td>
-          <!-- <BugDetails :bug="bug" /> -->
+        </tr>
+      </tbody>
+
+      <tbody v-else>
+        <tr v-for="bug in state.openBugs"
+            :key="bug.id"
+            :bug="bug"
+            class="pointer"
+            data-toggle="modal"
+            :data-target="'#bugDetails' + bug.id"
+        >
+          <router-link :to="{ name: 'BugDetails', params: {id: bug.id}}">
+            <th scope="row">
+              {{ bug.title }}
+            </th>
+          </router-link>
+          <td>{{ bug.creator.name }}</td>
+          <td v-if="bug.closed == false">
+            Open
+          </td>
+          <td v-else class="text-muted">
+            Closed
+          </td>
+          <td>{{ getBugDate(bug._id) }}</td>
         </tr>
       </tbody>
       <!-- BODY END -->
@@ -56,7 +81,9 @@ export default {
   name: 'BugWindow',
   setup() {
     const state = reactive({
-      bugs: computed(() => AppState.bugs)
+      bugs: computed(() => AppState.bugs),
+      openBugs: computed(() => AppState.bugs.filter((b) => b.closed === false)),
+      filterOpen: true
     })
     onMounted(() => {
       bugsService.getAllBugs()
